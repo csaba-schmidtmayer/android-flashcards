@@ -1,0 +1,12 @@
+{
+  "name": "android-flashcards",
+  "displayName": "android-flashcards",
+  "expo": {
+    "name": "android-flashcards",
+    "slug": "android-flashcards",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
