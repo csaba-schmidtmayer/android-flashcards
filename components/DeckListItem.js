@@ -8,12 +8,12 @@ const DeckListItem = (props) => (
     <Text
       style={styles.listItemHeader}
     >
-      props.deckName
+      {props.deckName}
     </Text>
     <Text
       style={styles.listItemContent}
     >
-      {`This deck contains ${props.deckSize > 0 ? props.deckSize : 'no'} flashcard ${props.deckSize === 1 ? '' : 's'}${props.deckSize === 0 ? ' yet' : ''}`}
+      {`This deck contains ${props.deckSize > 0 ? props.deckSize : 'no'} flashcard${props.deckSize === 1 ? '' : 's'}${props.deckSize === 0 ? ' yet' : ''}`}
     </Text>
   </View>
 );
@@ -21,14 +21,16 @@ const DeckListItem = (props) => (
 const styles = StyleSheet.create({
   listItem: {
     backgroundColor: '#fff',
-    padding: 20
+    padding: 20,
+    borderWidth: 0.5,
+    borderRadius: 2
   },
   listItemHeader: {
-    fontSize: 40,
+    fontSize: 20,
     fontWeight: 'bold'
   },
   listItemContent: {
-    fontSize: 20
+    fontSize: 16
   }
 });
 
