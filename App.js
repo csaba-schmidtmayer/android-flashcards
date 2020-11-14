@@ -3,26 +3,37 @@ import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { createLogicMiddleware } from 'redux-logic';
 
 import Dashboard from './screens/Dashboard';
 import AddDeck from './screens/AddDeck';
+import rootReducer from './reducers';
+import logic from './logic';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <View style={styles.container}>
-        <StatusBar
-          backgroundColor="#003d33"
-          barStyle="light-content"
-        />
-        <Stack.Navigator>
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen name="Create deck" component={AddDeck} />
-        </Stack.Navigator>
-      </View>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <View style={styles.container}>
+          <StatusBar
+            backgroundColor="#003d33"
+            barStyle="light-content"
+          />
+          <Stack.Navigator>
+            <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen name="Create deck" component={AddDeck} />
+          </Stack.Navigator>
+        </View>
+      </NavigationContainer>
+    </Provider>
   );
 }
+
+const logicMiddleware = createLogicMiddleware(logic);
+const middleware = applyMiddleware(logic);
+const store = createStore(rootReducer, middleware);
 
 const Stack = createStackNavigator();
 
