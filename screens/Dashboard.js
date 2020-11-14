@@ -13,7 +13,7 @@ const Dashboard = (props) => {
       <FlatList
         renderItem={renderItem}
         data={placeHolderData}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
       />
       <TouchableOpacity
         onPress={() => props.navigation.navigate('Create deck')}
