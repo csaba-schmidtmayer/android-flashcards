@@ -16,7 +16,7 @@ const Dashboard = (props) => {
         keyExtractor={(item) => item.id}
       />
       <TouchableOpacity
-        onPress={props.onPressAddDeck}
+        onPress={() => props.navigation.navigate('Create deck')}
         style={styles.addButton}
       >
         <MaterialIcons
