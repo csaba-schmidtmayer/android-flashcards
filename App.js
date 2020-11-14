@@ -4,8 +4,8 @@ import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Dashboard from './pages/Dashboard';
-import AddDeck from './pages/AddDeck';
+import Dashboard from './screens/Dashboard';
+import AddDeck from './screens/AddDeck';
 
 export default function App() {
   return (
