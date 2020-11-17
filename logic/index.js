@@ -1,5 +1,7 @@
+import { createLogicMiddleware } from 'redux-logic';
 
+import storageLogic from './storageLogic';
 
-export default [
-
-];
+export default createLogicMiddleware([
+  ...storageLogic
+]);

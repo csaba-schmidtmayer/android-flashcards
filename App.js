@@ -5,17 +5,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { createLogicMiddleware } from 'redux-logic';
+
 
 import Dashboard from './screens/Dashboard';
 import AddDeck from './screens/AddDeck';
 import rootReducer from './reducers';
 import logic from './logic';
+import { navigationRef } from './utils/rootNavigation';
 
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <View style={styles.container}>
           <StatusBar
             backgroundColor="#003d33"
@@ -31,9 +32,7 @@ export default function App() {
   );
 }
 
-const logicMiddleware = createLogicMiddleware(logic);
-const middleware = applyMiddleware(logic);
-const store = createStore(rootReducer, middleware);
+const store = createStore(rootReducer, applyMiddleware(logic));
 
 const Stack = createStackNavigator();
 

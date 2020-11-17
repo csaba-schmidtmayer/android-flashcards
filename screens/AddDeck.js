@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
-const AddDeck = () => {
+import { addDeck } from '../actions/deckActions';
+
+const AddDeck = ({ dispatch }) => {
   const [ deckName, setDeckName ] = useState('');
   return(
     <View
@@ -14,7 +17,7 @@ const AddDeck = () => {
       />
       <TouchableOpacity
         style={styles.button}
-        onPress={() => console.log(deckName)}
+        onPress={() => dispatch(addDeck(deckName))}
       >
         <Text
           style={[styles.text, styles.buttonText]}
@@ -25,7 +28,7 @@ const AddDeck = () => {
 };
 
 
-export default AddDeck;
+export default connect()(AddDeck);
 
 const styles = StyleSheet.create({
   container: {
