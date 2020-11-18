@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { View, Text, FlatList, TouchableOpacity, Pressable, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
@@ -10,11 +11,17 @@ const Dashboard = (props) => {
     <View
       style={styles.container}
     >
-      <FlatList
-        renderItem={renderItem}
-        data={placeHolderData}
-        keyExtractor={(item) => item.id.toString()}
-      />
+      {
+        props.decks.length === 0
+          ? null
+          : (
+            <FlatList
+              renderItem={renderItem}
+              data={props.decks}
+              keyExtractor={(item) => item.deckName}
+            />
+          )
+      }
       <TouchableOpacity
         onPress={() => props.navigation.navigate('Create deck')}
         style={styles.addButton}
@@ -34,7 +41,7 @@ const renderItem = ({ item }) => (
     style={styles.itemContainer}
   >
     <Pressable
-      onPress={() => console.log(item.id)}
+      onPress={() => console.log(item.deckName)}
     >
       <DeckListItem
         deckName={item.deckName}
@@ -46,6 +53,7 @@ const renderItem = ({ item }) => (
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingTop: 10
   },
   addButton: {
@@ -63,62 +71,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const placeHolderData = [
-  {
-    id: 1,
-    deckName: 'Javascript',
-    deckSize: 7
-  },
-  {
-    id: 2,
-    deckName: 'Python',
-    deckSize: 0
-  },
-  {
-    id: 3,
-    deckName: 'Java',
-    deckSize: 1
-  },
-  {
-    id: 4,
-    deckName: 'C#',
-    deckSize: 14
-  },
-  {
-    id: 5,
-    deckName: 'C++',
-    deckSize: 5
-  },
-  {
-    id: 6,
-    deckName: 'Perl',
-    deckSize: 25
-  },
-  {
-    id: 7,
-    deckName: 'Lisp',
-    deckSize: 2
-  },
-  {
-    id: 8,
-    deckName: 'Kotlin',
-    deckSize: 17
-  },
-  {
-    id: 9,
-    deckName: 'Object-C',
-    deckSize: 4
-  },
-  {
-    id: 10,
-    deckName: 'Haskell',
-    deckSize: 0
-  },
-  {
-    id: 11,
-    deckName: 'Erlang',
-    deckSize: 1
-  }
-];
+const mapStateToProps = ({ decks }) => {
+  const deckList = Object.keys(decks).map((id) => ({
+    deckName: decks[id].name,
+    deckSize: decks[id].cards.length
+  }));
+  return ({
+    decks: deckList
+  });
+};
 
-export default Dashboard;
+export default connect(mapStateToProps)(Dashboard);

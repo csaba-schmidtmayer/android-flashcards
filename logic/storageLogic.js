@@ -1,9 +1,33 @@
 import { AsyncStorage } from 'react-native';
 import { createLogic } from 'redux-logic';
 
-import { ADD_DECK } from '../constants/actionTypes';
-import { deckExists, addDeckSuccess } from '../actions/deckActions';
+import { FETCH_DECKS, ADD_DECK } from '../constants/actionTypes';
+import { DECKS } from '../constants/const';
+import { fetchDecksSuccess, deckExists, addDeckSuccess } from '../actions/deckActions';
 import { navigate } from '../utils/rootNavigation';
+
+const fetchDecksfromStorage = createLogic({
+  type: FETCH_DECKS,
+
+  async process({ getState, action }, dispatch, done) {
+    try {
+      const deckData = await AsyncStorage.getItem(DECKS);
+      if (deckData === null) {
+        // If no storage entry exists, create one.
+        AsyncStorage.setItem(DECKS, JSON.stringify({}));
+      }
+      else {
+        dispatch(fetchDecksSuccess(JSON.parse(deckData)));
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+    finally {
+      done();
+    }
+  }
+});
 
 const validateDeckName = createLogic({
   type: ADD_DECK,
@@ -11,8 +35,7 @@ const validateDeckName = createLogic({
   validate({ getState, action }, allow, reject) {
     const name = action.payload.name;
     const decks = getState().decks;
-    const deckNames = Object.keys(decks).map((id) => (decks[id].name.toLowerCase()));
-    console.log(deckNames);
+    const deckNames = Object.keys(decks).map((id) => (id.toLowerCase()));
     if (!deckNames.includes(name.toLowerCase())) {
       console.log('Name usable', name);
       allow(action);
@@ -34,21 +57,21 @@ const storeNewDeck = createLogic({
       cards: []
     };
     try {
-      await AsyncStorage.setItem(name, JSON.stringify(deck));
-      console.log('success');
+      await AsyncStorage.mergeItem(DECKS, JSON.stringify({[name]: deck}));
       dispatch(addDeckSuccess(deck));
+      navigate('Dashboard');
     }
     catch (error) {
       console.log(error);
     }
     finally {
-      navigate('Dashboard');
       done();
     }
   }
 });
 
 export default [
+  fetchDecksfromStorage,
   validateDeckName,
   storeNewDeck
 ];

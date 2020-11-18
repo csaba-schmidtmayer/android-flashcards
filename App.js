@@ -12,6 +12,7 @@ import AddDeck from './screens/AddDeck';
 import rootReducer from './reducers';
 import logic from './logic';
 import { navigationRef } from './utils/rootNavigation';
+import { fetchDecks } from './actions/deckActions';
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
 }
 
 const store = createStore(rootReducer, applyMiddleware(logic));
+store.dispatch(fetchDecks());
 
 const Stack = createStackNavigator();
 
