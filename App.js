@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 
 import Dashboard from './screens/Dashboard';
 import AddDeck from './screens/AddDeck';
+import DeckView from './screens/DeckView';
 import rootReducer from './reducers';
 import logic from './logic';
 import { navigationRef } from './utils/rootNavigation';
@@ -24,8 +25,27 @@ export default function App() {
             barStyle="light-content"
           />
           <Stack.Navigator>
-            <Stack.Screen name="Dashboard" component={Dashboard} />
-            <Stack.Screen name="Create deck" component={AddDeck} />
+            <Stack.Screen
+              name="Dashboard"
+              component={Dashboard}
+              options={{
+                title: 'Dashboard'
+              }}
+            />
+            <Stack.Screen
+              name="CreateDeck"
+              component={AddDeck}
+              options={{
+                title: 'Create new deck'
+              }}
+            />
+            <Stack.Screen
+              name="DeckView"
+              component={DeckView}
+              options={({ route }) => ({
+                title: route.params.deckName
+              })}
+            />
           </Stack.Navigator>
         </View>
       </NavigationContainer>

@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { View, Text, FlatList, TouchableOpacity, Pressable, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
+import { useNavigation } from '@react-navigation/native';
 
 import DeckListItem from '../components/DeckListItem';
+import { navigate } from '../utils/rootNavigation';
 
 const Dashboard = (props) => {
   return (
@@ -23,7 +25,7 @@ const Dashboard = (props) => {
           )
       }
       <TouchableOpacity
-        onPress={() => props.navigation.navigate('Create deck')}
+        onPress={() => props.navigation.navigate('CreateDeck')}
         style={styles.addButton}
       >
         <MaterialIcons
@@ -41,7 +43,10 @@ const renderItem = ({ item }) => (
     style={styles.itemContainer}
   >
     <Pressable
-      onPress={() => console.log(item.deckName)}
+      onPress={() => navigate('DeckView', {
+        deckName: item.deckName,
+        deckSize: item.deckSize
+      })}
     >
       <DeckListItem
         deckName={item.deckName}
