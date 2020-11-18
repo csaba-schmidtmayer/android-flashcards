@@ -10,6 +10,9 @@ const DeckView = ({ navigation, route }) => {
     >
       <TouchableOpacity
         style={[styles.button, styles.enabledButton]}
+        onPress={() =>navigation.navigate('AddCard', {
+          deck: route.params.deckName
+        })}
       >
         <Text
           style={[styles.buttonText, styles.enabledButtonText]}

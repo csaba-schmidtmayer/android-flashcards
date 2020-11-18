@@ -25,7 +25,7 @@ const Dashboard = (props) => {
           )
       }
       <TouchableOpacity
-        onPress={() => props.navigation.navigate('CreateDeck')}
+        onPress={() => props.navigation.navigate('AddDeck')}
         style={styles.addButton}
       >
         <MaterialIcons

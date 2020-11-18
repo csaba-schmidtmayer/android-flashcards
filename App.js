@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import Dashboard from './screens/Dashboard';
 import AddDeck from './screens/AddDeck';
 import DeckView from './screens/DeckView';
+import AddCard from './screens/AddCard';
 import rootReducer from './reducers';
 import logic from './logic';
 import { navigationRef } from './utils/rootNavigation';
@@ -33,7 +34,7 @@ export default function App() {
               }}
             />
             <Stack.Screen
-              name="CreateDeck"
+              name="AddDeck"
               component={AddDeck}
               options={{
                 title: 'Create new deck'
@@ -45,6 +46,13 @@ export default function App() {
               options={({ route }) => ({
                 title: route.params.deckName
               })}
+            />
+            <Stack.Screen
+              name="AddCard"
+              component={AddCard}
+              options={{
+                title: 'Create new flashcard'
+              }}
             />
           </Stack.Navigator>
         </View>
