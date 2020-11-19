@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { connect } from 'react-redux';
 
 import { addDeck } from '../actions/deckActions';
+import buttonStyles from '../styles/buttonStyles';
 
 const AddDeck = ({ dispatch }) => {
   const [ deckName, setDeckName ] = useState('');
@@ -11,16 +12,17 @@ const AddDeck = ({ dispatch }) => {
       style={styles.container}
     >
       <TextInput
-        style={[styles.text, styles.textInput]}
+        style={styles.textInput}
         value={deckName}
         onChangeText={(text) => setDeckName(text)}
       />
       <TouchableOpacity
-        style={styles.button}
+        style={[buttonStyles.button, deckName === '' ? buttonStyles.disabledButton : buttonStyles.enabledButton]}
         onPress={() => dispatch(addDeck(deckName))}
+        disabled={deckName === ''}
       >
         <Text
-          style={[styles.text, styles.buttonText]}
+          style={[buttonStyles.buttonText, deckName === '' ? buttonStyles.disabledButtonText : buttonStyles.enabledButtonText]}
         >Create deck</Text>
       </TouchableOpacity>
     </View>
@@ -37,22 +39,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch'
   },
-  text: {
-    fontSize: 20
-  },
   textInput: {
+    fontSize: 20,
     height: 40,
     borderBottomWidth: 1,
     borderBottomColor: '#00695c',
     marginBottom: 40
-  },
-  button: {
-    padding: 10,
-    backgroundColor: '#00695c',
-    borderRadius: 2
-  },
-  buttonText: {
-    color: '#fff',
-    textAlign: 'center'
   }
 });

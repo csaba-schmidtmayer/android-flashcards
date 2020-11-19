@@ -3,35 +3,47 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { connect } from 'react-redux';
 
 import { addCard } from '../actions/deckActions';
+import buttonStyles from '../styles/buttonStyles';
 
 const AddCard = ({ route, dispatch }) => {
   const deck = route.params.deckName;
   const [ question, setQuestion ] = useState('');
   const [ answer, setAnswer ] = useState('');
+  const [ isSubmitDisabled, setSubmitDisabled ] = useState(true);
+
+  const onQuestionChange = (text) => {
+    setSubmitDisabled(text === '' || answer === '');
+    setQuestion(text);
+  };
+
+  const onAnswerChange = (text) => {
+    setSubmitDisabled(question === '' || text === '');
+    setAnswer(text);
+  };
 
   return(
     <View
       style={styles.container}
     >
       <TextInput
-        style={[styles.text, styles.textInput]}
+        style={styles.textInput}
         value={question}
-        onChangeText={(text) => setQuestion(text)}
+        onChangeText={(text) => onQuestionChange(text)}
         placeholder="Enter a question"
       />
       <TextInput
-        style={[styles.text, styles.textInput]}
+        style={styles.textInput}
         value={answer}
-        onChangeText={(text) => setAnswer(text)}
+        onChangeText={(text) => onAnswerChange(text)}
         placeholder="Enter the answer"
       />
       <TouchableOpacity
-        style={styles.button}
+        style={[buttonStyles.button, isSubmitDisabled ? buttonStyles.disabledButton : buttonStyles.enabledButton]}
         onPress={() => dispatch(addCard(deck, question, answer))}
-        disabled={ question === '' || answer === ''}
+        disabled={isSubmitDisabled}
       >
         <Text
-          style={[styles.text, styles.buttonText]}
+          style={[buttonStyles.buttonText, isSubmitDisabled ? buttonStyles.disabledButtonText : buttonStyles.enabledButtonText]}
         >
           Add card to deck
         </Text>
@@ -50,22 +62,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch'
   },
-  text: {
-    fontSize: 20
-  },
   textInput: {
+    fontSize: 20,
     height: 40,
     borderBottomWidth: 1,
     borderBottomColor: '#00695c',
     marginBottom: 40
-  },
-  button: {
-    padding: 10,
-    backgroundColor: '#00695c',
-    borderRadius: 2
-  },
-  buttonText: {
-    color: '#fff',
-    textAlign: 'center'
   }
 });
