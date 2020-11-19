@@ -44,8 +44,7 @@ const renderItem = ({ item }) => (
   >
     <Pressable
       onPress={() => navigate('DeckView', {
-        deckName: item.deckName,
-        deckSize: item.deckSize
+        deckName: item.deckName
       })}
     >
       <DeckListItem

@@ -1,9 +1,9 @@
 import { AsyncStorage } from 'react-native';
 import { createLogic } from 'redux-logic';
 
-import { FETCH_DECKS, ADD_DECK } from '../constants/actionTypes';
+import { FETCH_DECKS, ADD_DECK, ADD_CARD } from '../constants/actionTypes';
 import { DECKS } from '../constants/const';
-import { fetchDecksSuccess, deckExists, addDeckSuccess } from '../actions/deckActions';
+import { fetchDecksSuccess, deckExists, addDeckSuccess, addCardSuccess } from '../actions/deckActions';
 import { navigate } from '../utils/rootNavigation';
 
 const fetchDecksfromStorage = createLogic({
@@ -17,6 +17,7 @@ const fetchDecksfromStorage = createLogic({
         AsyncStorage.setItem(DECKS, JSON.stringify({}));
       }
       else {
+        console.log(deckData);
         dispatch(fetchDecksSuccess(JSON.parse(deckData)));
       }
     }
@@ -37,11 +38,9 @@ const validateDeckName = createLogic({
     const decks = getState().decks;
     const deckNames = Object.keys(decks).map((id) => (id.toLowerCase()));
     if (!deckNames.includes(name.toLowerCase())) {
-      console.log('Name usable', name);
       allow(action);
     }
     else {
-      console.log('Deck exists', name);
       reject(deckExists(name));
     }
   }
@@ -70,8 +69,42 @@ const storeNewDeck = createLogic({
   }
 });
 
+const storeNewCard = createLogic({
+  type: ADD_CARD,
+
+  async process({ getState, action }, dispatch, done) {
+    const deckName = action.payload.deck;
+    const card = {
+      question: action.payload.question,
+      answer: action.payload.answer
+    };
+    const deck = {
+      name: deckName,
+      cards: [
+        ...getState().decks[deckName].cards,
+        card
+      ]
+    };
+    console.log(deck);
+    try {
+      await AsyncStorage.mergeItem(DECKS, JSON.stringify({[deckName]: deck}));
+      dispatch(addCardSuccess(deckName, card));
+      navigate('DeckView', {
+        deckName: deckName
+      });
+    }
+    catch (error) {
+      console.log(error);
+    }
+    finally {
+      done();
+    }
+  }
+});
+
 export default [
   fetchDecksfromStorage,
   validateDeckName,
-  storeNewDeck
+  storeNewDeck,
+  storeNewCard
 ];

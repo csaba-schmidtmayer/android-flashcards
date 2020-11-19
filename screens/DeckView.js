@@ -1,17 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const DeckView = ({ navigation, route }) => {
-  const isQuizDisabled = route.params.deckSize === 0;
-
+const DeckView = ({ navigation, isQuizDisabled, deck }) => {
   return (
     <View
       style={styles.container}
     >
       <TouchableOpacity
         style={[styles.button, styles.enabledButton]}
-        onPress={() =>navigation.navigate('AddCard', {
-          deck: route.params.deckName
+        onPress={() => navigation.navigate('AddCard', {
+          deckName: deck
         })}
       >
         <Text
@@ -34,7 +33,16 @@ const DeckView = ({ navigation, route }) => {
   );
 }
 
-export default DeckView;
+const mapStateToProps = ({ decks }, { route }) => {
+  const deckName = route.params.deckName;
+
+  return ({
+    deck: deckName,
+    isQuizDisabled: decks[deckName].cards.length === 0
+  });
+}
+
+export default connect(mapStateToProps)(DeckView);
 
 const styles = StyleSheet.create({
   container: {

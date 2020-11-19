@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import { addCard } from '../actions/deckActions';
 
-const AddCard = ({ dispatch }) => {
+const AddCard = ({ route, dispatch }) => {
+  const deck = route.params.deckName;
   const [ question, setQuestion ] = useState('');
   const [ answer, setAnswer ] = useState('');
 
@@ -26,7 +27,7 @@ const AddCard = ({ dispatch }) => {
       />
       <TouchableOpacity
         style={styles.button}
-        onPress={() => dispatch(addCard(question, answer))}
+        onPress={() => dispatch(addCard(deck, question, answer))}
         disabled={ question === '' || answer === ''}
       >
         <Text

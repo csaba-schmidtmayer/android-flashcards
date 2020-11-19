@@ -1,4 +1,4 @@
-import { FETCH_DECKS_SUCCESS, DECK_EXISTS, ADD_DECK_SUCCESS } from '../constants/actionTypes';
+import { FETCH_DECKS_SUCCESS, DECK_EXISTS, ADD_DECK_SUCCESS, ADD_CARD_SUCCESS } from '../constants/actionTypes';
 
 const deckReducer = (state = {}, action) => {
   const { type, payload } = action;
@@ -13,6 +13,17 @@ const deckReducer = (state = {}, action) => {
         [payload.deck.name]: {
           name: payload.deck.name,
           cards: payload.deck.cards
+        }
+      });
+    case ADD_CARD_SUCCESS:
+      return ({
+        ...state,
+        [payload.deck]: {
+          ...state[payload.deck],
+          cards: [
+            ...state[payload.deck].cards,
+            payload.card
+          ]
         }
       });
     default:
