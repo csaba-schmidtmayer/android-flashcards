@@ -4,11 +4,16 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 import buttonStyles from '../styles/buttonStyles';
 
-const DeckView = ({ navigation, isQuizDisabled, deck }) => {
+const DeckView = ({ navigation, isQuizDisabled, deck, deckSize }) => {
   return (
     <View
       style={styles.container}
     >
+      <Text
+        style={styles.text}
+      >
+        {`This deck contains ${deckSize > 0 ? deckSize : 'no'} flashcard${deckSize === 1 ? '' : 's'}${deckSize === 0 ? ' yet' : ''}`}
+      </Text>
       <TouchableOpacity
         style={[buttonStyles.button, buttonStyles.enabledButton]}
         onPress={() => navigation.navigate('AddCard', {
@@ -43,6 +48,7 @@ const mapStateToProps = ({ decks }, { route }) => {
 
   return ({
     deck: deckName,
+    deckSize: decks[deckName].cards.length,
     isQuizDisabled: decks[deckName].cards.length === 0
   });
 }
@@ -55,5 +61,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'stretch'
+  },
+  text: {
+    fontSize: 24,
+    textAlign: 'center',
+    marginBottom: 48
   }
 });
