@@ -15,6 +15,7 @@ const AddDeck = ({ dispatch }) => {
         style={styles.textInput}
         value={deckName}
         onChangeText={(text) => setDeckName(text)}
+        placeholder="Enter the name of the deck"
       />
       <TouchableOpacity
         style={[buttonStyles.button, deckName === '' ? buttonStyles.disabledButton : buttonStyles.enabledButton]}
