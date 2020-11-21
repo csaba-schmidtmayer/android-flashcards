@@ -45,8 +45,7 @@ const renderItem = ({ item }) => (
       deckName={item.deckName}
       deckSize={item.deckSize}
       onPress={() => navigate('DeckView', {
-        deckName: item.deckName,
-        numOfCards: item.deckSize
+        deckName: item.deckName
       })}
     />
   </View>
