@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, FlatList, TouchableOpacity, Pressable, StyleSheet } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
 
@@ -41,17 +41,14 @@ const renderItem = ({ item }) => (
   <View
     style={styles.itemContainer}
   >
-    <Pressable
+    <DeckListItem
+      deckName={item.deckName}
+      deckSize={item.deckSize}
       onPress={() => navigate('DeckView', {
         deckName: item.deckName,
         numOfCards: item.deckSize
       })}
-    >
-      <DeckListItem
-        deckName={item.deckName}
-        deckSize={item.deckSize}
-      />
-    </Pressable>
+    />
   </View>
 );
 

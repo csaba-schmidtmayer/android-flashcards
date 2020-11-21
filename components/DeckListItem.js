@@ -1,22 +1,46 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Pressable, Animated, StyleSheet } from 'react-native';
 
-const DeckListItem = (props) => (
-  <View
-    style={styles.listItem}
-  >
-    <Text
-      style={styles.listItemHeader}
+const DeckListItem = ({ deckName, deckSize, onPress }) => {
+  const [animation, setAnimation] = useState(new Animated.Value(1));
+
+  const handlePress = () => {
+    Animated.sequence([
+      Animated.timing(animation, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: true
+      }),
+      Animated.timing(animation, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true
+      })
+    ])
+      .start(() => {onPress()});
+  };
+
+  return (
+    <Pressable
+      onPress={handlePress}
     >
-      {props.deckName}
-    </Text>
-    <Text
-      style={styles.listItemContent}
-    >
-      {`This deck contains ${props.deckSize > 0 ? props.deckSize : 'no'} flashcard${props.deckSize === 1 ? '' : 's'}${props.deckSize === 0 ? ' yet' : ''}`}
-    </Text>
-  </View>
-);
+      <View
+        style={styles.listItem}
+      >
+        <Animated.Text
+          style={[styles.listItemHeader, {opacity: animation}]}
+        >
+          {deckName}
+        </Animated.Text>
+        <Animated.Text
+          style={[styles.listItemContent, {opacity: animation}]}
+        >
+          {`This deck contains ${deckSize > 0 ? deckSize : 'no'} flashcard${deckSize === 1 ? '' : 's'}${deckSize === 0 ? ' yet' : ''}`}
+        </Animated.Text>
+      </View>
+    </Pressable>
+  );
+};
 
 const styles = StyleSheet.create({
   listItem: {
