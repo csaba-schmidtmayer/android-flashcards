@@ -23,6 +23,9 @@ const DeckView = ({ navigation, isQuizDisabled, deck }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={[buttonStyles.button, isQuizDisabled ? buttonStyles.disabledButton : buttonStyles.enabledButton]}
+        onPress={() => navigation.navigate('Quiz', {
+          deckName: deck
+        })}
         disabled={isQuizDisabled}
       >
         <Text

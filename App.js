@@ -11,6 +11,7 @@ import Dashboard from './screens/Dashboard';
 import AddDeck from './screens/AddDeck';
 import DeckView from './screens/DeckView';
 import AddCard from './screens/AddCard';
+import Quiz from './screens/Quiz';
 import rootReducer from './reducers';
 import logic from './logic';
 import { navigationRef } from './utils/rootNavigation';
@@ -52,6 +53,13 @@ export default function App() {
               component={AddCard}
               options={{
                 title: 'Create new flashcard'
+              }}
+            />
+            <Stack.Screen
+              name="Quiz"
+              component={Quiz}
+              options={{
+                title: 'Test yourself'
               }}
             />
           </Stack.Navigator>
