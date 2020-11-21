@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { View, Text, FlatList, TouchableOpacity, Pressable, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import Constants from 'expo-constants';
-import { useNavigation } from '@react-navigation/native';
 
 import DeckListItem from '../components/DeckListItem';
 import { navigate } from '../utils/rootNavigation';
