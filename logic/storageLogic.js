@@ -58,7 +58,9 @@ const storeNewDeck = createLogic({
     try {
       await AsyncStorage.mergeItem(DECKS, JSON.stringify({[name]: deck}));
       dispatch(addDeckSuccess(deck));
-      navigate('Dashboard');
+      navigate('DeckView', {
+        deckName: name
+      });
     }
     catch (error) {
       console.log(error);
