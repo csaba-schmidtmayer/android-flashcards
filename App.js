@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -16,8 +16,15 @@ import rootReducer from './reducers';
 import logic from './logic';
 import { navigationRef } from './utils/rootNavigation';
 import { fetchDecks } from './actions/deckActions';
+import { scheduleReminder, setReminderHandler } from './utils/notifications';
 
 export default function App() {
+
+  useEffect(() => {
+    scheduleReminder();
+    setReminderHandler();
+  }, []);
+
   return (
     <Provider store={store}>
       <NavigationContainer ref={navigationRef}>
