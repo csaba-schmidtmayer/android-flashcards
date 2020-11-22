@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import QuizQuestion from '../components/QuizQuestion';
 import QuizResult from '../components/QuizResult';
+import { rescheduleReminder } from '../utils/notifications';
 
 const Quiz = ({ name, cards }) => {
   const [ index, setIndex ] = useState(0);
   const [ shuffledCards, setShuffledCards ] = useState(shuffle(cards));
   const [ correctAnswers, setCorrectAnswers ] = useState(0);
   const [ isFinished, setFinished ] = useState(false);
+
+  useEffect(() => {
+    rescheduleReminder();
+  }, []);
 
   const restart = () => {
     setIndex(0);

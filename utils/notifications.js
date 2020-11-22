@@ -3,7 +3,7 @@ import { scheduleNotificationAsync, setNotificationHandler, cancelScheduledNotif
 
 import { NOTIFICATION } from '../constants/const';
 
-export const scheduleReminder = async () => {
+export const scheduleReminder = async (skipStorage = false) => {
   const hasPermission = await allowsNotifications();
   if (!hasPermission) {
     await requestPermissionsAsync({
@@ -11,12 +11,11 @@ export const scheduleReminder = async () => {
     });
   }
   else {
-    const reminderId = await AsyncStorage.getItem(NOTIFICATION);
-    let parsedReminder = JSON.parse(reminderId);
+    const activeReminder = skipStorage ? null : await getActiveReminder();
 
-    if (parsedReminder === undefined || parsedReminder === null) {
+    if (activeReminder === undefined || activeReminder === null) {
       const trigger = new Date(Date.now());
-      trigger.setDate(tomorrow.getDate() + 1)
+      trigger.setDate(trigger.getDate() + 1)
       trigger.setHours(20)
       trigger.setMinutes(0)
 
@@ -42,7 +41,19 @@ export const setReminderHandler = () => {
   });
 };
 
+export const rescheduleReminder = async () => {
+  const activeReminder = await getActiveReminder();
+
+  await cancelScheduledNotificationAsync(activeReminder);
+  await scheduleReminder(true);
+};
+
 const allowsNotifications = async () => {
   const settings = await getPermissionsAsync();
   return (settings.granted);
+}
+
+const getActiveReminder = async () => {
+  const reminderId = await AsyncStorage.getItem(NOTIFICATION);
+  return JSON.parse(reminderId);
 }
