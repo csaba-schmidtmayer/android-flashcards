@@ -17,7 +17,6 @@ const fetchDecksfromStorage = createLogic({
         AsyncStorage.setItem(DECKS, JSON.stringify({}));
       }
       else {
-        console.log(deckData);
         dispatch(fetchDecksSuccess(JSON.parse(deckData)));
       }
     }
